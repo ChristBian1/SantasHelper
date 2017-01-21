@@ -26,13 +26,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Intent intent = getIntent();
         String action = intent.getAction();
+
         Uri data = intent.getData();
-        s = data.getPathSegments();
-        String sum="";
-        for (String e:s) {
-            sum+=e+"\n";
+        if (data != null) {
+            s = data.getPathSegments();
+            String sum = "";
+            for (String e : s) {
+                sum += e + "\n";
+            }
+            ((TextView) findViewById(R.id.textView)).setText(sum);
+        } else {
+            ((TextView) findViewById(R.id.textView)).setText("No data was found in the intent");
         }
-        ((TextView) findViewById(R.id.textView)).setText(sum);
     }
 
     public void goToCreateGroup(View view)
@@ -43,18 +48,5 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private ServiceConnection myConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
 
-            MyLocalBinder binder = (MyLocalBinder) service;
-            myService= binder.getService();
-            isBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isBound = false;
-        }
-    };
 }

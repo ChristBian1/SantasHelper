@@ -31,7 +31,7 @@
                     android:scheme="example" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".CreateGroup"></activity>
         <service
             android:name=".RestService"
             android:enabled="true"
