@@ -11,40 +11,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.chris.santashelper.LoginActivity">
 
-    <ImageView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/elf"
-        android:id="@+id/imageView"
-        android:paddingBottom="0dp"
-        android:layout_marginTop="118dp"
+        android:inputType="textPersonName"
+        android:ems="10"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="151dp"
+        android:id="@+id/usernameInput"
+        android:hint="Please Enter Username"/>
 
     <Button
-        android:text="Login"
+        android:text="Start Exchange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="37dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="34dp"
+        android:layout_below="@+id/usernameInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="54dp"
         android:id="@+id/button"
-        android:onClick="doSomething" />
+        android:onClick="goToCreateGroup" />
 
-    <Button
-        android:text="Sign Up"
+    <TextView
+        android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="34dp"
-        android:layout_marginEnd="33dp"
-        android:id="@+id/button2"
-        android:layout_alignBaseline="@+id/button"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="doSomething" />
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="71dp"
+        android:id="@+id/textView" />
 </RelativeLayout>
