@@ -14,7 +14,28 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:label="@string/filter_title_santashelper">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="www.example.com"
+                    android:pathPrefix="/santashelper"
+                    android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix -->
+                <!-- Accepts URIs that begin with "example://gizmos” -->
+                <data
+                    android:host="santashelper"
+                    android:scheme="example" />
+            </intent-filter>
         </activity>
+        <activity android:name=".CreateGroup"></activity>
+        <service
+            android:name=".RestService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
