@@ -46,7 +46,7 @@ app.post('/session/generateSession', function (req, res) {
 	if (!name) res.sendStatus(400);
 	else {
 		db.createSession(req.body, function(error, session) {
-			if (error) res.send("Please try another name");
+			if (error) res.status(400).send("Please try another name");
 			else res.sendStatus(200);
 		});		
 	}

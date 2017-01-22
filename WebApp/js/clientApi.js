@@ -34,7 +34,14 @@ function getSessionInfo(sessionName) {
 
 function photoClick()
 {
+	var name = document.getElementById('groupname').value;
+	if (name) generateSession(name)
+	.done(function(result) {
 		window.location.href="group.html";
+	})
+	.fail(function() {
+		alert("Name already used");
+	});
 }
 
 function photoClick2()
@@ -50,10 +57,7 @@ function generateSession(sessionName) {
 		'sessionName': sessionName
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return callMeBaby(url, method, options);
 }
 
 function addUser(sessionName, username) {
@@ -138,7 +142,7 @@ function getAssignedMatch(sessionName, username) {
 /**
 *user functions
 **/
-function createUser(username) {
+function createUser(username, callback) {
 	var url = '/user/create';
 	var method = 'POST';
 
@@ -148,7 +152,10 @@ function createUser(username) {
 
 	callMeBaby(url, method, options)
 	.done(function(result) {
-		console.log(result);
+		callback(result);
+	})
+	.fail(function() {
+		callback();
 	});
 }
 
