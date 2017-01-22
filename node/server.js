@@ -4,6 +4,8 @@ var express = require('express');
 var Promise = require('bluebird');
 var app = express();
 var bodyParser = require('body-parser');
+var mongo = require('./database.js');
+var db = new mongo();
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -17,68 +19,82 @@ app.get('/', function (req, res) {
 
 /**
 * Gets the information about the session based on session ID
-* @params sessionID
+* @params sessionName
 **/
-app.get('/sessionInfo', function(req, res) {
-	var session = req.query.sessionID;
-
+app.get('/session/sessionInfo', function(req, res) {
+	var session = req.query.sessionName;
 	if (!session) res.sendStatus(401);
-	else {
-		res.sendStatus(200);
-	}
-});
 
-/**
-* Generates a session with unique ID
-**/
-app.post('/generateSession', function (req, res) {
-	generateSession()
-	.then(function(sessionID, error) {
-		if (error) res.sendStatus(500);
-		else res.send(sessionID);
+	db.findSession(session, function(err, sess) {
+		if (err) res.sendStatus(401);
+		res.send(sess);
 	});
 });
 
 /**
 * Generates a session with unique ID
-* @params sessionID
-* @params giftOptions 
+* @params sessionName
+* optional:
+* @params date as {day, month, year}
+* @params maxPrice
 **/
-app.post('/addUser', function (req, res) {
-	var session = req.body.sessionID;
-	var options = req.body.giftOptions;
-	if (!session || !options) res.send(401);
+app.post('/session/generateSession', function (req, res) {
+	var name = req.body.sessionName;
+	if (!name) res.sendStatus(400);
 	else {
-		//if user already exists return error message
-		//else success
-		res.send(200);	
+		db.createSession(req.body, function(error, session) {
+			if (error) res.send("Please try another name");
+			else res.sendStatus(200);
+		});		
+	}
+});
+
+/**
+* Add user to a session
+* @params sessionName
+* @params username
+* @params wishlist (the index position of the wishlist they selected)
+**/
+app.post('/session/addUser', function (req, res) {
+	var session = req.body.sessionName;
+	var user = req.body.username;
+	var option = req.body.wishlist || null;
+	if (!session) res.sendStatus(401);
+	else {
+		db.findSession(session, function(err, sess) {
+			sess.addMember(user, option);
+		});
+		res.send(200);
 	}
 });
 
 /**
 * updates user description for a session
-* @params user
-* @params giftOptions
-* @params sessionID
+* @params username
+* @params wishlist index
+* @params sessionName
 **/
-app.put('/updateUserOptions', function(req, res) {
-	var user = req.body.user;
-	var options = req.body.giftOptions;
-	var session = req.body.sessionID;
+app.put('/session/updateUserOptions', function(req, res) {
+	var user = req.body.username;
+	var option = req.body.wishlist;
+	var session = req.body.sessionName;
 
-	if (!user || !session || !options) res.sendStatus(401);
+	if (!user || !session || !option) res.sendStatus(401);
 	else {
 		//replace the users giftOptions for the session
-		res.sendStatus(200);
+		db.findSession(session, function(err, sess) {
+			sess.updateUserList(user, option);
+			res.sendStatus(200);
+		});
 	}
 });
 
 /**
 * Assigns matches within the session
-* @params sessionID
+* @params sessionName
 **/
-app.post('/startMatch', function(req, res) {
-	var session = req.body.sessionID;
+app.post('/session/startMatch', function(req, res) {
+	var session = req.body.sessionName;
 	if (!session) res.sendStatus(401).end();
 	else {
 		res.sendStatus(200);
@@ -87,41 +103,81 @@ app.post('/startMatch', function(req, res) {
 
 /**
 * Returns info about the assigned match for that session
-* @params user
-* @params sessionID
+* @params username
+* @params sessionName
 **/
-app.get('/assignedMatch', function(req, res) {
-	var session = req.query.sessionID;
-	var user = req.query.user;
+app.get('/session/assignedMatch', function(req, res) {
+	var session = req.query.sessionName;
+	var user = req.query.username;
 	if (!session) res.sendStatus(401).end();
 	else {
-		getAssignedMatch(user, session)
-		.then(function(data, error) {
-			if (error) res.sendStatus(500);
-			else res.send(data);
+		db.findSession(session, function(err, sess) {
+			var assignedTo = sess.getAssigned(user);
+			res.send(assignedTo);
 		});
 	}
 });
 
-/**
-* @returns session ID
-**/
-function generateSession() {
-    return new Promise(function(resolve, reject) {
-    	resolve('xyz');
-    });
-}
+/**************************/
+
+//Now the users table endpoints
+
+//create a new user with username
+//will return error if username already exists
+app.post('/user/create', function(req, res) {
+	var user = req.body.username;
+	db.createUser(user, function(err, u) {
+		debugger;
+		if (err) res.status(400).send('please try another username');
+		else res.sendStatus(200);
+	});
+});
 
 /**
-* @returns assigned match for a session
+* @params username
+* optional: @params 'index' of the list
 **/
-function getAssignedMatch(user, session) {
-    return new Promise(function(resolve, reject) {
-    	resolve('temp');
-    });
-}
+app.get('/user/wishlists', function(req, res) {
+	var user = req.query.username;
+	var index = req.query.index || null;
+	db.findUser(user, function(err, u) {
+		debugger;
+		if (!index) res.send(u.wishlists);
+		else res.send(u.wishlists[index]);
+	});
+});
 
-var server = app.listen(1337, function () {
+//add new wishlist
+//whatever format you want
+app.post('/user/wishlists', function(req, res) {
+	var wishlist = req.body.wishlist;
+	var user = req.body.username;
+
+	db.findUser(user, function(err, u) {
+		u.addList(wishlist);
+		res.sendStatus(200);
+	});
+});
+
+//update a wishlist
+//just send the whole thing with the changes
+app.put('/user/wishlists', function(req, res) {
+	var wishlist = req.body.wishlist;
+	var user = req.body.username;
+	var index = req.body.index;
+
+	db.findUser(user, function(err, u) {
+		u.updateList(index, wishlist);
+		res.sendStatus(200);
+	});
+});
+
+//delete a wishlist by index
+app.delete('/user/wishlists', function(req, res) {
+
+});
+
+var server = app.listen(8080, function () {
 
   var host = server.address().address
   var port = server.address().port
