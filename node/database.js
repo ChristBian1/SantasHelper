@@ -64,6 +64,7 @@ sessions.methods.assignMember = function(receiver, assignedTo) {
 		}
 	});
 
+	this.markModified('members');
 	this.save();
 }
 
@@ -88,6 +89,7 @@ sessions.methods.updateUserList = function(username, list) {
 		}
 	});
 
+	this.markModified('members');
 	this.save();
 }
 
