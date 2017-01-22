@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String action = intent.getAction();
+
         Uri data = intent.getData();
         if (data != null) {
             s = data.getPathSegments();
