@@ -23,6 +23,16 @@ function getSessionInfo(sessionName) {
 	callMeBaby(url, method, options);
 }
 
+function photoClick()
+{
+		window.location.href="group.html";
+}
+
+function photoClick2()
+{
+		window.location.href="results.html";
+}
+
 function generateSession(sessionName) {
 	var url = '/session/generateSession';
 	var method = 'POST';
