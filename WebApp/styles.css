@@ -18,11 +18,44 @@
 
 .inner p{
     padding: 10px;
+    padding-left:50px;
     margin-left: auto;
     margin-right: auto; 
+    float:left;
+    font-size: 36pt;
+    color: #4db6ac;
+}
+
+.inner div {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
 }
 #submitUsername
 {
     height: 30px;
     width:20px;
+}
+
+#arrowButton
+{
+    margin:20px;
+    height: 50px;
+    width: 50px;
+}
+
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+:-ms-input-placeholder {  
+   text-align: center; 
 }
