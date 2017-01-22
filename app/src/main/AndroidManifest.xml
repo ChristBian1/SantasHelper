@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chris.santashelper">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -31,7 +31,14 @@
                     android:scheme="example" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+        <activity android:name=".CreateGroup">
+
+        </activity>
+
+=======
         <activity android:name=".CreateGroup"></activity>
+>>>>>>> ea1c558d01422e7e5edc883edfd34af5d3511c49
         <service
             android:name=".RestService"
             android:enabled="true"

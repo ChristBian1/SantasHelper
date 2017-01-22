@@ -19,5 +19,8 @@ public class CreateGroup extends AppCompatActivity {
         usernameText = (TextView) findViewById(R.id.usernameText);
         Intent loginIntent = getIntent();
         usernameText.setText("Welcome, "+loginIntent.getStringExtra("username"));
+
+  //      RestManager restClient = new RestManager("wat");
+  //      restClient.execute("e");
     }
 }
