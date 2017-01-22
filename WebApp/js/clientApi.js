@@ -26,10 +26,7 @@ function getSessionInfo(sessionName) {
 		'sessionName': sessionName
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return callMeBaby(url, method, options);
 }
 
 function photoClick()
@@ -46,7 +43,7 @@ function photoClick()
 
 function photoClick2()
 {
-		window.location.href="results.html";
+	window.location.href="results.html";
 }
 
 function generateSession(sessionName) {
@@ -69,10 +66,7 @@ function addUser(sessionName, username) {
 		'username': username
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return callMeBaby(url, method, options);
 }
 
 function updateUserList(sessionName, username, wishlistIndex) {
@@ -85,10 +79,7 @@ function updateUserList(sessionName, username, wishlistIndex) {
 		'wishlist': wishlistIndex
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return callMeBaby(url, method, options);
 }
 
 function startMatch(sessionName) {
@@ -133,10 +124,7 @@ function getAssignedMatch(sessionName, username) {
 		'username': username
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return callMeBaby(url, method, options);
 }
 
 /**
@@ -168,10 +156,7 @@ function getWishlists(username, index) {
 		'index': index || null
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return  callMeBaby(url, method, options);
 }
 
 function addWishlist(username, wishlist) {
@@ -183,10 +168,7 @@ function addWishlist(username, wishlist) {
 		'wishlist': wishlist
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return callMeBaby(url, method, options);
 }
 
 function updateWishlist(username, index, wishlist) {
@@ -199,10 +181,7 @@ function updateWishlist(username, index, wishlist) {
 		'wishlist': wishlist
 	};
 
-	callMeBaby(url, method, options)
-	.done(function(result) {
-		console.log(result);
-	});
+	return callMeBaby(url, method, options);
 }
 
 function deleteWishlist(username, listIndex) {
