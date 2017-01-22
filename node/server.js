@@ -6,8 +6,9 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongo = require('./database.js');
 var db = new mongo();
+var path = require('path');
 
-app.use(express.static('../WebApp'));
+app.use(express.static(__dirname + '/../WebApp'));
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -95,11 +96,17 @@ app.put('/session/updateUserList', function(req, res) {
 * Assigns matches within the session
 * @params sessionName
 **/
-app.post('/session/startMatch', function(req, res) {
+app.post('/session/match', function(req, res) {
 	var session = req.body.sessionName;
+	var matchObj = req.body.match;
 	if (!session) res.sendStatus(401).end();
 	else {
-		res.sendStatus(200);
+		db.findSession(session, function(err, sess) {
+			Object.keys(matchObj).forEach(function(key) {
+				sess.assignMember(key, matchObj[key]);
+			});
+			res.sendStatus(200);
+		});
 	}
 });
 

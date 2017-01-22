@@ -1,11 +1,17 @@
 function callMeBaby(url, method, options) {
 	var url = 'http://localhost:8080' + url;
-	$.ajax({
+	return $.ajax({
 		'url': url,
 		'data': options,
 		'method': method
-	}).done(function(result) {
-		console.log(result);
+	});
+}
+
+function callSAP(extra){
+	var url = 'https://match.cfapps.us10.hana.ondemand.com/match/' + extra;
+	return $.ajax({
+		'url': url,
+		'method': 'GET'
 	});
 }
 
@@ -20,7 +26,10 @@ function getSessionInfo(sessionName) {
 		'sessionName': sessionName
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function generateSession(sessionName) {
@@ -31,7 +40,10 @@ function generateSession(sessionName) {
 		'sessionName': sessionName
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function addUser(sessionName, username) {
@@ -43,7 +55,10 @@ function addUser(sessionName, username) {
 		'username': username
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function updateUserList(sessionName, username, wishlistIndex) {
@@ -56,18 +71,43 @@ function updateUserList(sessionName, username, wishlistIndex) {
 		'wishlist': wishlistIndex
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function startMatch(sessionName) {
-	var url = '/session/startMatch';
-	var method = 'POST';
+	var url = '/session/sessionInfo';
+	var method = 'GET';
 
 	var options = {
 		'sessionName': sessionName
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+		var mems = result.members.map(function(member) {
+			return member.username;
+		});
+		mems = mems.join(',');
+		callSAP(mems)
+		.done(function(res) {
+			var url = '/session/match';
+			var method = 'POST';
+
+			var options = {
+				'sessionName': sessionName,
+				'match': res
+			};
+
+			callMeBaby(url, method, options)
+			.done(function(result) {
+				console.log(result);
+			});
+		})
+	});
 }
 
 function getAssignedMatch(sessionName, username) {
@@ -79,7 +119,10 @@ function getAssignedMatch(sessionName, username) {
 		'username': username
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 /**
@@ -93,7 +136,10 @@ function createUser(username) {
 		'username': username
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function getWishlists(username, index) {
@@ -105,7 +151,10 @@ function getWishlists(username, index) {
 		'index': index || null
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function addWishlist(username, wishlist) {
@@ -117,7 +166,10 @@ function addWishlist(username, wishlist) {
 		'wishlist': wishlist
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function updateWishlist(username, index, wishlist) {
@@ -130,7 +182,10 @@ function updateWishlist(username, index, wishlist) {
 		'wishlist': wishlist
 	};
 
-	callMeBaby(url, method, options);
+	callMeBaby(url, method, options)
+	.done(function(result) {
+		console.log(result);
+	});
 }
 
 function deleteWishlist(username, listIndex) {
