@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var mongo = require('./database.js');
 var db = new mongo();
 
+app.use(express.static('../WebApp'));
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -74,7 +76,7 @@ app.post('/session/addUser', function (req, res) {
 * @params wishlist index
 * @params sessionName
 **/
-app.put('/session/updateUserOptions', function(req, res) {
+app.put('/session/updateUserList', function(req, res) {
 	var user = req.body.username;
 	var option = req.body.wishlist;
 	var session = req.body.sessionName;
@@ -127,7 +129,6 @@ app.get('/session/assignedMatch', function(req, res) {
 app.post('/user/create', function(req, res) {
 	var user = req.body.username;
 	db.createUser(user, function(err, u) {
-		debugger;
 		if (err) res.status(400).send('please try another username');
 		else res.sendStatus(200);
 	});
@@ -141,7 +142,6 @@ app.get('/user/wishlists', function(req, res) {
 	var user = req.query.username;
 	var index = req.query.index || null;
 	db.findUser(user, function(err, u) {
-		debugger;
 		if (!index) res.send(u.wishlists);
 		else res.send(u.wishlists[index]);
 	});
