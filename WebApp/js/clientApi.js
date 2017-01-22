@@ -39,10 +39,21 @@ function photoClick()
 	.fail(function() {
 		alert("Name already used");
 	});
+
+	$("#groupname").text(name);
 }
 
 function photoClick2()
 {
+	$('.username').each(function()
+	{
+		if($(this).val()) addUser($("#groupname").text(),$(this).val())
+		.done(function(result) {
+	})
+	.fail(function() {
+		alert("Name already used");
+	});
+	});
 	window.location.href="results.html";
 }
 
