@@ -31,10 +31,14 @@
                     android:scheme="example" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".CreateGroup">
 
         </activity>
 
+=======
+        <activity android:name=".CreateGroup"></activity>
+>>>>>>> ea1c558d01422e7e5edc883edfd34af5d3511c49
         <service
             android:name=".RestService"
             android:enabled="true"

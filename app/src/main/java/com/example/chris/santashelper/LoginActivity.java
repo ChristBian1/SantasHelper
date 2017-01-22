@@ -22,16 +22,17 @@ public class LoginActivity extends AppCompatActivity {
     EditText username;
     List<String> s;
     RestService myService;
-    Boolean isBound=false;
+    Boolean isBound = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         Intent intent = getIntent();
-            String action = intent.getAction();
-            Uri data = intent.getData();
-        if(data!=null) {
+        String action = intent.getAction();
+        Uri data = intent.getData();
+        if (data != null) {
             s = data.getPathSegments();
             String sum = "";
             for (String e : s) {
@@ -39,17 +40,17 @@ public class LoginActivity extends AppCompatActivity {
             }
             ((TextView) findViewById(R.id.textView)).setText(sum);
         }
-        Intent i =new Intent(this, RestService.class);
-        bindService(i,myConnection, Context.BIND_AUTO_CREATE);
+        Intent i = new Intent(this, RestService.class);
+        bindService(i, myConnection, Context.BIND_AUTO_CREATE);
+
     }
 
-    public void goToCreateGroup(View view)
-    {
+    public void goToCreateGroup(View view) {
         username = (EditText) findViewById(R.id.usernameInput);
-        String s = myService.performPostCall("http://ec2-54-186-119-141.us-west-2.compute.amazonaws.com:8080/generateSession",null);
-        Log.i("postResponse",s);
-        Intent intent = new Intent(this,CreateGroup.class);
-        intent.putExtra("username",username.getText().toString());
+        String s = myService.performPostCall("http://ec2-54-186-119-141.us-west-2.compute.amazonaws.com:8080/generateSession", null);
+        Log.i("postResponse", s);
+        Intent intent = new Intent(this, CreateGroup.class);
+        intent.putExtra("username", username.getText().toString());
         startActivity(intent);
     }
 
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
 
             RestService.MyLocalBinder binder = (RestService.MyLocalBinder) service;
-            myService= binder.getService();
+            myService = binder.getService();
             isBound = true;
         }
 
@@ -66,5 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName name) {
             isBound = false;
         }
+
     };
 }
