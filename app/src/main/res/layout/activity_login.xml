@@ -11,17 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.chris.santashelper.LoginActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="151dp"
-        android:id="@+id/usernameInput"
-        android:hint="Please Enter Username"/>
-
     <Button
         android:text="Start Exchange"
         android:layout_width="wrap_content"
@@ -32,15 +21,26 @@
         android:id="@+id/button"
         android:onClick="goToCreateGroup" />
 
-    <TextView
-        android:text="TextView"
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="71dp"
-        android:id="@+id/textView" />
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/usernameInput"
+        android:hint="Please Enter Username"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/elf"
+        android:id="@+id/imageView2"
+        android:maxHeight="300dp"
+        android:maxWidth="300dp"
+        android:layout_marginBottom="84dp"
+        android:layout_above="@+id/button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
